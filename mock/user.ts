@@ -129,6 +129,7 @@ export default {
       access = 'admin';
       return;
     }
+    // Check the login info
     if (password === 'ant.design' && username === 'user') {
       res.send({
         status: 'ok',

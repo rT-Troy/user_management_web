@@ -6,7 +6,7 @@ module.exports = {
   endOfLine: 'lf',
   overrides: [
     {
-      files: '.prettierrc',
+      files : '.prettierrc',
       options: {
         parser: 'json',
       },
