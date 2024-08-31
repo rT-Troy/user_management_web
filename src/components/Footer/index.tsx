@@ -18,13 +18,13 @@ const Footer: React.FC = () => {
         {
           key: 'github',
           title: <GithubOutlined />,
-          href: 'https://github.com/ant-design/ant-design-pro',
+          href: 'https://github.com/rT-Troy',
           blankTarget: true,
         },
         {
-          key: 'Ant Design',
-          title: 'Ant Design',
-          href: 'https://ant.design',
+          key: 'rT-Troy',
+          title: 'rT-Troy',
+          href: 'https://www.yotroy.cool',
           blankTarget: true,
         },
       ]}
