@@ -73,9 +73,14 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     },
     footerRender: () => <Footer />,
     onPageChange: () => {
+      // 如果没有登录或注册，重定向到 login
       const { location } = history;
-      // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
+      const whiteList = ['/user/register', loginPath]
+      if (whiteList.includes(location.pathname)) {
+        return;
+      }
+      // // 如果没有登录，重定向到 login
+      if (!initialState?.currentUser) {
         history.push(loginPath);
       }
     },
