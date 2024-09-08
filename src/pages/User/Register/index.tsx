@@ -1,19 +1,18 @@
 import { Footer } from '@/components';
-import { login } from '@/services/ant-design-pro/api';
+import { register } from '@/services/ant-design-pro/api';
 import {
   LockOutlined,
   UserOutlined,
 } from '@ant-design/icons';
-import { ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
-// @ts-ignore
-import { Helmet, history, useModel } from '@umijs/max';
-import { Alert, Tabs, message } from 'antd';
+import { LoginForm, ProFormText } from '@ant-design/pro-components';
+import {Helmet, history, Link} from '@umijs/max';
+import { parse } from 'query-string';
+import {Tabs, message, Divider} from 'antd';
 import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
-import { flushSync } from 'react-dom';
 import Settings from '../../../../config/defaultSettings';
 
-import { SYSTEM_LOGO, WEBSITE_LINK } from '@/constants'; // `@`: root route which is /src
+import { SYSTEM_LOGO, WEBSITE_LINK } from '@/constants';
 
 const useStyles = createStyles(({ token }) => {
   return {
@@ -54,61 +53,45 @@ const useStyles = createStyles(({ token }) => {
 const Lang = () => {
   return;
 };
-const LoginMessage: React.FC<{
-  content: string;
-}> = ({ content }) => {
-  return (
-    <Alert
-      style={{
-        marginBottom: 24,
-      }}
-      message={content}
-      type="error"
-      showIcon
-    />
-  );
-};
 const Register: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
   const [type, setType] = useState<string>('account');
-  const { initialState, setInitialState } = useModel('@@initialState');
   const { styles } = useStyles();
-  const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    if (userInfo) {
-      flushSync(() => {
-        setInitialState((s) => ({
-          ...s,
-          currentUser: userInfo,
-        }));
-      });
+
+  // form submitting
+  const handleSubmit = async (values: API.RegisterParams) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const {userAccount, userPassword, checkPassword } = values;
+    if (userPassword !== checkPassword) {
+      message.error("两次输入的密码不一致");
+      return;
     }
-  };
-  const handleSubmit = async (values: API.LoginParams) => {
     try {
-      // 登录
-      const user = await login({
-        ...values,
-        type,
-      });
-      if (user) {
+      //注册
+      const id = await register({userAccount, userPassword, checkPassword });
+      if (id > 0) {
         const defaultLoginSuccessMessage = '注册成功！';
         message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
-        const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
+
+        /*
+        Redirecting to login page
+         */
+        if (!history) return;
+        const query = parse(history.location.search);
+        history.push({
+          pathname: '/user/login',
+          query,
+        });
         return;
+      } else {
+        throw new Error(`register error id = ${id}`);
       }
-      console.log(user);
-      // 如果失败去设置用户错误信息
-      setUserLoginState(user);
     } catch (error) {
       const defaultLoginFailureMessage = '注册失败，请重试！';
       console.log(error);
       message.error(defaultLoginFailureMessage);
     }
   };
-  const { status, type: loginType } = userLoginState;
+
   return (
     <div className={styles.container}>
       <Helmet>
@@ -128,6 +111,11 @@ const Register: React.FC = () => {
             minWidth: 280,
             maxWidth: '75vw',
           }}
+          submitter={{  // search by resources, and located to the file
+            searchConfig: {  // node_modules/@ant-design/pro-form/es/layouts/LoginForm/index.js
+              submitText: '注册',
+            }
+          }}
           logo={<img alt="logo" src={SYSTEM_LOGO} />}
           title="User Management System"
           subTitle={
@@ -136,12 +124,9 @@ const Register: React.FC = () => {
               rTwTroy{' '}
             </a>
           }
-          initialValues={{
-            autoLogin: true,
-          }}
-          actions={['其他登录方式 :', <ActionIcons key="icons" />]}
-          onFinish={async (values) => {
-            await handleSubmit(values as API.LoginParams);
+
+          onFinish={async (values) => {  // call the body while click the button
+            await handleSubmit(values as API.RegisterParams);
           }}
         >
           <Tabs
@@ -151,14 +136,11 @@ const Register: React.FC = () => {
             items={[
               {
                 key: 'account',
-                label: '账户密码登录',
+                label: '账户密码注册',
               },
             ]}
           />
 
-          {status === 'error' && loginType === 'account' && (
-            <LoginMessage content={'错误的账户和密码(admin/ant.design)'} />
-          )}
           {type === 'account' && (
             <>
               <ProFormText
@@ -167,7 +149,7 @@ const Register: React.FC = () => {
                   size: 'large',
                   prefix: <UserOutlined />,
                 }}
-                placeholder={'账户: admin or user'}
+                placeholder={'请输入账号'}
                 rules={[
                   {
                     required: true,
@@ -181,7 +163,22 @@ const Register: React.FC = () => {
                   size: 'large',
                   prefix: <LockOutlined />,
                 }}
-                placeholder={'密码: ant.design'}
+                placeholder={'请输入密码'}
+                rules={[
+                  {
+                    required: true,
+                    min: 8,
+                  },
+                ]}
+              />
+              {/*Check password required*/}
+              <ProFormText.Password
+                name="checkPassword"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <LockOutlined />,
+                }}
+                placeholder={'请再次输入密码'}
                 rules={[
                   {
                     required: true,
@@ -197,9 +194,9 @@ const Register: React.FC = () => {
               marginBottom: 24,
             }}
           >
-            <ProFormCheckbox noStyle name="autoLogin">
-              自动登录
-            </ProFormCheckbox>
+            <Divider type="vertical" />
+            <Link to="/user/login">用户登录</Link>
+            <Divider type="vertical" />
             <a
               style={{
                 float: 'right',
@@ -208,7 +205,7 @@ const Register: React.FC = () => {
               target="_blank"
               rel="noreferrer"
             >
-              忘记密码 ?
+              找回账号
             </a>
           </div>
         </LoginForm>

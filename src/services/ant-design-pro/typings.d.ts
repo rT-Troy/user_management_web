@@ -29,6 +29,8 @@ declare namespace API {
     currentAuthority?: string;
   };
 
+  type RegisterResult = number; // just the id
+
   type PageParams = {
     current?: number;
     pageSize?: number;
@@ -67,6 +69,13 @@ declare namespace API {
     autoLogin?: boolean;
     type?: string;
   };
+
+  type RegisterParams = {
+    userAccount?: string;  // `?`: here means the param userAccount is optional
+    userPassword?: string;  // all `?` could be removed here
+    checkPassword?: string;
+    type?: string;
+  }
 
   type ErrorResponse = {
     /** 业务约定的错误码 */

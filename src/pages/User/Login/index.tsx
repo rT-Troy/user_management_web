@@ -8,9 +8,8 @@ import {
   WeiboCircleOutlined,
 } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
-// @ts-ignore
-import { Helmet, history, useModel } from '@umijs/max';
-import { Alert, Tabs, message } from 'antd';
+import {Helmet, history, Link, useModel} from '@umijs/max';
+import {Alert, Tabs, message, Divider} from 'antd';
 import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
@@ -212,6 +211,9 @@ const Login: React.FC = () => {
             <ProFormCheckbox noStyle name="autoLogin">
               自动登录
             </ProFormCheckbox>
+            <Divider type="vertical" />
+            <Link to="/user/register">新用户注册</Link>
+            <Divider type="vertical" />
             <a
               style={{
                 float: 'right',

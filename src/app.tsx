@@ -11,6 +11,7 @@ import defaultSettings from '../config/defaultSettings';
 import { RequestConfig } from '@@/plugin-request/request';
 const isDev = process.env.NODE_ENV === 'development';
 const loginPath = '/user/login';
+const registerPath = '/user/register';
 
 /**
  * request by UmiJS from https://umijs.org/docs/max/request#
@@ -31,14 +32,14 @@ export async function getInitialState(): Promise<{
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
-    try {
-      const msg = await queryCurrentUser({
-        skipErrorHandler: true,
-      });
-      return msg.data;
-    } catch (error) {
-      history.push(loginPath);
-    }
+    // try {
+    //   const msg = await queryCurrentUser({
+    //     skipErrorHandler: true,
+    //   });
+    //   return msg.data;
+    // } catch (error) {
+    //   history.push(loginPath);
+    // }
     return undefined;
   };
   // 如果不是登录页面，执行
@@ -75,11 +76,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     onPageChange: () => {
       // 如果没有登录或注册，重定向到 login
       const { location } = history;
-      const whiteList = ['/user/register', loginPath]
+      const whiteList = [registerPath, loginPath]
       if (whiteList.includes(location.pathname)) {
         return;
       }
-      // // 如果没有登录，重定向到 login
+      // 如果没有登录，重定向到 login
       if (!initialState?.currentUser) {
         history.push(loginPath);
       }
