@@ -77,6 +77,9 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
     [setInitialState],
   );
 
+  /*
+   make sure username is not null, otherwise the avatar will keep loading
+   */
   const loading = (
     <span className={styles.action}>
       <Spin

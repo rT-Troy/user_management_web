@@ -15,7 +15,7 @@ declare namespace API {
     createTime?: Date;
     update?: string;
     isDelete?: string;
-    userRole?: string;
+    userRole?: number;
 
     // name?: string;
     // avatar?: string;
@@ -51,18 +51,31 @@ declare namespace API {
   };
 
   type RuleListItem = {
+    id?: string;  // all of these should be string expect date
+    username?: string;
+    userAccount?: string;
+    userPassword?: string;
+    avatarUrl?: string;
+    gender?: string;
+    phone?: string;
+    email?: string;
+    userStatus?: string;
+    createTime?: Date;
+    update?: string;
+    isDelete?: string;
+    userRole?: number;
     key?: number;
-    disabled?: boolean;
-    href?: string;
-    avatar?: string;
-    name?: string;
-    owner?: string;
+    // disabled?: boolean;
+    // href?: string;
+    // avatar?: string;
+    // name?: string;
+    // owner?: string;
     desc?: string;
     callNo?: number;
-    status?: number;
-    updatedAt?: string;
-    createdAt?: string;
-    progress?: number;
+    // status?: number;
+    // updatedAt?: string;
+    // createdAt?: string;
+    // progress?: number;
   };
 
   type RuleList = {
