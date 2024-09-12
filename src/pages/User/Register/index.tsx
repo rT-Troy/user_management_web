@@ -60,14 +60,14 @@ const Register: React.FC = () => {
   // form submitting
   const handleSubmit = async (values: API.RegisterParams) => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const {userAccount, userPassword, checkPassword } = values;
+    const {userAccount, userPassword, checkPassword, verifyCode } = values;
     if (userPassword !== checkPassword) {
       message.error("两次输入的密码不一致");
       return;
     }
     try {
       //注册
-      const id = await register({userAccount, userPassword, checkPassword });
+      const id = await register({userAccount, userPassword, checkPassword, verifyCode });
       if (id > 0) {
         const defaultLoginSuccessMessage = '注册成功！';
         message.success(defaultLoginSuccessMessage);
@@ -183,6 +183,19 @@ const Register: React.FC = () => {
                   {
                     required: true,
                     min: 8,
+                  },
+                ]}
+              />
+              <ProFormText
+                name="verifyCode"
+                fieldProps={{
+                  size: 'large',
+                  prefix: <UserOutlined />,
+                }}
+                placeholder={'请输入邀请码'}
+                rules={[
+                  {
+                    required: true,
                   },
                 ]}
               />
