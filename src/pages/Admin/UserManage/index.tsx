@@ -80,6 +80,11 @@ const columns: ProColumns<API.CurrentUser>[] = [
     }
   },
   {
+    title: 'verifyCode',
+    dataIndex: 'verifyCode',
+    copyable: true,
+  },
+  {
     title: 'status',
     dataIndex: 'userStatus',
   },
