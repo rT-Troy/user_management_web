@@ -25,6 +25,13 @@ declare namespace API {
     currentAuthority?: string;
   };
 
+  type BaseResponse<T> = {
+    code: number;
+    data: T;
+    message: string;
+    description: string;
+  }
+
   type RegisterResult = number; // just the id
 
   type PageParams = {
