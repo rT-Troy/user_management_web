@@ -1,7 +1,7 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { useRef } from 'react';
-import { searchUsers } from '@/services/ant-design-pro/api';
+import { findUsers } from '@/services/ant-design-pro/api';
 import { Image } from 'antd';
 export const waitTimePromise = async (time: number = 100) => {
   return new Promise((resolve) => {
@@ -19,20 +19,24 @@ const columns: ProColumns<API.CurrentUser>[] = [
     dataIndex: 'id',  // should match the column name
     valueType: 'indexBorder',
     width: 48,
+    search: false,  // not allowed to search by this
   },
   {
     title: 'username',
     dataIndex: 'username',
     copyable: true,
+    search: true,
   },
   {
     title: 'account',
     dataIndex: 'userAccount',
     copyable: true,
+    search: true,
   },
   {
     title: 'avatar',
     dataIndex: 'avatarUrl',
+    search: false,
     /*
     render the avatar
      */
@@ -51,22 +55,19 @@ const columns: ProColumns<API.CurrentUser>[] = [
     title: 'phone',
     dataIndex: 'phone',
     copyable: true,
+    search: false,
   },
   {
     title: 'email',
     dataIndex: 'email',
     copyable: true,
-  },
-  {
-    title: 'createTime',
-    dataIndex: 'createTime',
-    valueType: 'dateTime',
-    copyable: true,
+    search: false,
   },
   {
     title: 'Role',
     dataIndex: 'userRole',
     valueType: 'select', // `select` make options
+    search: false,
     valueEnum: {
       0: { // `0`: match the role value
         text: 'user',
@@ -83,10 +84,12 @@ const columns: ProColumns<API.CurrentUser>[] = [
     title: 'verifyCode',
     dataIndex: 'verifyCode',
     copyable: true,
+    search: false,
   },
   {
     title: 'status',
     dataIndex: 'userStatus',
+    search: false,
   },
 ];
 
@@ -97,9 +100,9 @@ export default () => {
       columns={columns}
       actionRef={actionRef}
       cardBordered
-      request={async (sort, filter) => {
-        console.log(sort, filter);
-        const userList = await searchUsers();
+      // params：the data which transfer to the backend
+      request={async (params, sort, filter) => {
+        const userList = await findUsers(params);
         return {
           data: userList,
         };
@@ -129,7 +132,7 @@ export default () => {
       form={{
         // 由于配置了 transform，提交的参数与定义的不同这里需要转化一下
         syncToUrl: (values, type) => {
-          if (type === 'get') {
+          if (type === 'get') {  // 'get': here to ensuring 'reset' button works.
             return {
               ...values,
               created_at: [values.startTime, values.endTime],

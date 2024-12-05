@@ -54,17 +54,8 @@ declare namespace API {
     isDelete?: string;
     userRole?: number;
     key?: number;
-    // disabled?: boolean;
-    // href?: string;
-    // avatar?: string;
-    // name?: string;
-    // owner?: string;
     desc?: string;
     callNo?: number;
-    // status?: number;
-    // updatedAt?: string;
-    // createdAt?: string;
-    // progress?: number;
   };
 
   type RuleList = {
@@ -92,6 +83,12 @@ declare namespace API {
     checkPassword?: string;
     verifyCode?: string;
     type?: string;
+  }
+
+  type SearchParams = {
+    username?: string;
+    userAccount?: string;
+    gender?: string;
   }
 
   type ErrorResponse = {
