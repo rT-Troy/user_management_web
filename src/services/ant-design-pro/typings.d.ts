@@ -3,7 +3,7 @@
 
 declare namespace API {
   type CurrentUser = {
-    id?: string;  // all of these should be string expect date
+    id?: number;  // all of these should be string expect date
     username?: string;
     userAccount?: string;
     userPassword?: string;
@@ -89,6 +89,10 @@ declare namespace API {
     username?: string;
     userAccount?: string;
     gender?: string;
+  }
+
+  type DeleteParams = {
+    id?: number;
   }
 
   type ErrorResponse = {

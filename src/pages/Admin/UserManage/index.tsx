@@ -1,8 +1,8 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { useRef } from 'react';
-import { findUsers } from '@/services/ant-design-pro/api';
-import { Image } from 'antd';
+import { deleteUsers, findUsers } from '@/services/ant-design-pro/api';
+import { Button, Image, Popconfirm } from 'antd';
 export const waitTimePromise = async (time: number = 100) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -64,7 +64,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
     search: false,
   },
   {
-    title: 'Role',
+    title: 'role',
     dataIndex: 'userRole',
     valueType: 'select', // `select` make options
     search: false,
@@ -87,9 +87,25 @@ const columns: ProColumns<API.CurrentUser>[] = [
     search: false,
   },
   {
-    title: 'status',
-    dataIndex: 'userStatus',
-    search: false,
+    title: 'Action', // 操作列
+    dataIndex: 'action',
+    render: (_, record) => (
+      <Popconfirm
+        title="Are you sure to delete this user?"
+        onConfirm={async () => {
+          const deleteResult = await deleteUsers(record);
+          return {
+            data: deleteResult,
+          };
+        }}
+        okText="Yes"
+        cancelText="No"
+      >
+        <Button type="link" danger>
+          删除
+        </Button>
+      </Popconfirm>
+    ),
   },
 ];
 
