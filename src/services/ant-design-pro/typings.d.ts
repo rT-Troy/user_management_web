@@ -39,6 +39,15 @@ declare namespace API {
     pageSize?: number;
   };
 
+  type NoteParams = {
+    id?: string;
+    title?: string;
+    content?: string;
+    createTime?: Date;
+    userId?: string;
+    isDelete?: string;
+  }
+
   type RuleListItem = {
     id?: string;  // all of these should be string expect date
     username?: string;

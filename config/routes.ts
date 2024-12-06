@@ -17,6 +17,11 @@ export default [
       { path: '/admin/user-manage', name: '用户管理', component: './Admin/UserManage' },
     ],
   },
+  // {
+  //   path: '/note',
+  //   name: '笔记',
+  //   component: './Note'
+  // },
   { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },

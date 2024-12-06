@@ -1,7 +1,7 @@
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { useRef } from 'react';
-import { deleteUsers, findUsers } from '@/services/ant-design-pro/api';
+import { deleteUser, findUsers } from '@/services/ant-design-pro/api';
 import { Button, Image, Popconfirm } from 'antd';
 export const waitTimePromise = async (time: number = 100) => {
   return new Promise((resolve) => {
@@ -93,7 +93,7 @@ const columns: ProColumns<API.CurrentUser>[] = [
       <Popconfirm
         title="Are you sure to delete this user?"
         onConfirm={async () => {
-          const deleteResult = await deleteUsers(record);
+          const deleteResult = await deleteUser(record);
           return {
             data: deleteResult,
           };

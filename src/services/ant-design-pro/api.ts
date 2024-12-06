@@ -55,10 +55,36 @@ export async function findUsers(body: API.SearchParams, options?: { [key: string
 }
 
 /** 删除用户 POST /api/user/delete */
-export async function deleteUsers(body: API.DeleteParams, options?: { [p: string]: any }) {
+export async function deleteUser(body: API.DeleteParams, options?: { [p: string]: any }) {
   return request<API.BaseResponse<API.CurrentUser>>('/api/user/delete', {
     method: 'POST',
     data: body,
+    ...(options || {}),
+  });
+}
+
+/** 添加笔记 POST /api/note/add */
+export async function addNote(body: API.NoteParams, options?: { [p: string]: any }) {
+  return request<API.BaseResponse<API.NoteParams>>('/api/note/add', {
+    method: 'POST',
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 删除笔记 POST /api/note/delete */
+export async function deleteNote(body: API.NoteParams, options?: { [p: string]: any }) {
+  return request<API.BaseResponse<API.NoteParams>>('/api/note/delete', {
+    method: 'POST',
+    data: body,
+    ...(options || {}),
+  });
+}
+
+/** 添加笔记 GET /api/note */
+export async function getNotes(options?: { [p: string]: any }) {
+  return request<API.BaseResponse<API.NoteParams>>('/api/note', {
+    method: 'GET',
     ...(options || {}),
   });
 }
