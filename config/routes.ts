@@ -15,13 +15,17 @@ export default [
       { path: '/admin', redirect: '/admin/sub-page' },
       { path: '/admin/sub-page', name: '二级管理页', component: './Admin' },
       { path: '/admin/user-manage', name: '用户管理', component: './Admin/UserManage' },
+      { path: '/admin/note', name: '笔记管理',  component: './Admin/NoteManage',}
     ],
   },
-  // {
-  //   path: '/note',
-  //   name: '笔记',
-  //   component: './Note'
-  // },
+  {
+    path: '/note',
+    name: '笔记',
+    icon: 'highlight',
+    routes: [
+      { path: '/note', name:'我的笔记', component: './Note/MyNote' },
+    ],
+  },
   { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },
   { path: '/', redirect: '/welcome' },
   { path: '*', layout: false, component: './404' },

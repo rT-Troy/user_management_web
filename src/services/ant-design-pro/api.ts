@@ -81,10 +81,11 @@ export async function deleteNote(body: API.NoteParams, options?: { [p: string]: 
   });
 }
 
-/** 添加笔记 GET /api/note */
-export async function getNotes(options?: { [p: string]: any }) {
-  return request<API.BaseResponse<API.NoteParams>>('/api/note', {
-    method: 'GET',
+/** 搜索笔记 POST /api/note/search */
+export async function searchNotes(body: API.NoteParams, options?: { [p: string]: any }) {
+  return request<API.BaseResponse<API.NoteParams>>('/api/note/search', {
+    method: 'POST',
+    data: body,
     ...(options || {}),
   });
 }
