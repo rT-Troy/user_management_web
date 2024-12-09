@@ -1,10 +1,8 @@
-import { EllipsisOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { ProTable, TableDropdown } from '@ant-design/pro-components';
-import { Button, Dropdown, Popconfirm, Space, Tag } from 'antd';
+import { ProTable } from '@ant-design/pro-components';
+import { Button, Popconfirm } from 'antd';
 import { useRef } from 'react';
-import request from 'umi-request';
-import { deleteNote, deleteUser, searchNotes } from '@/services/ant-design-pro/api';
+import { deleteNote, searchNotes } from '@/services/ant-design-pro/api';
 export const waitTimePromise = async (time: number = 100) => {
   return new Promise((resolve) => {
     setTimeout(() => {

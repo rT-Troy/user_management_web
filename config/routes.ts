@@ -23,7 +23,7 @@ export default [
     name: '笔记',
     icon: 'highlight',
     routes: [
-      { path: '/note', name:'我的笔记', component: './Note/MyNote' },
+      { path: '/note/mynote', name:'我的笔记', component: './Note/MyNote' },
     ],
   },
   { name: '查询表格', icon: 'table', path: '/list', component: './TableList' },

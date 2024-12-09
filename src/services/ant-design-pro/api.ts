@@ -90,6 +90,15 @@ export async function searchNotes(body: API.NoteParams, options?: { [p: string]:
   });
 }
 
+/** 搜索笔记 POST /api/note/mynote */
+export async function myNotes(userId: string, options?: { [p: string]: any }) {
+  return request<API.BaseResponse<API.NoteParams>>('/api/note/mynote', {
+    method: 'POST',
+    data: { userId },
+    ...(options || {}),
+  });
+}
+
 /** 此处后端没有提供注释 GET /api/notices */
 export async function getNotices(options?: { [key: string]: any }) {
   return request<API.NoticeIconList>('/api/notices', {
