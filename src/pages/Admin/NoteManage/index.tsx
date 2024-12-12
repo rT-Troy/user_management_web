@@ -46,6 +46,7 @@ const columns: ProColumns<API.NoteParams>[] = [
   {
     title: 'Action', // 操作列
     dataIndex: 'action',
+    search: false,
     render: (_, record) => (
       <Popconfirm
         title="Are you sure to delete this user?"
