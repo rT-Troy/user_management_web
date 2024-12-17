@@ -16,8 +16,8 @@ export const waitTime = async (time: number = 100) => {
 };
 const columns: ProColumns<API.CurrentUser>[] = [
   {
+    title: 'id',
     dataIndex: 'id',  // should match the column name
-    valueType: 'indexBorder',
     width: 48,
     search: false,  // not allowed to search by this
   },
