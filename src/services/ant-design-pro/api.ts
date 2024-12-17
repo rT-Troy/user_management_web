@@ -91,10 +91,19 @@ export async function searchNotes(body: API.NoteParams, options?: { [p: string]:
 }
 
 /** 搜索笔记 POST /api/note/mynote */
-export async function myNotes(userId: string, options?: { [p: string]: any }) {
+export async function myNotes(title: string, userId: string, options?: { [p: string]: any }) {
   return request<API.BaseResponse<API.NoteParams>>('/api/note/mynote', {
     method: 'POST',
-    data: { userId },
+    data: {title, userId},
+    ...(options || {}),
+  });
+}
+
+/** 搜索笔记 POST /api/note/mynote */
+export async function updateNote(body: API.NoteParams, options?: { [p: string]: any }) {
+  return request<API.BaseResponse<API.NoteParams>>('/api/note/update', {
+    method: 'POST',
+    data: body,
     ...(options || {}),
   });
 }
